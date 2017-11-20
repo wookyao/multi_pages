@@ -6,8 +6,12 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var srcDir = path.resolve(process.cwd(), 'src');
-var jsPath = path.resolve(srcDir, 'js');
-var cssPath = path.resolve(srcDir, 'style');
+var jsPath = path.resolve(srcDir, 'assets/js');
+var cssPath = path.resolve(srcDir, 'assets/style');
+var imgPath = path.resolve(srcDir, 'assets/images');
+var fontsPath = path.resolve(srcDir, 'assets/fonts');
+
+
 
 var webpackConfig = {
   "plugins": [
@@ -22,7 +26,7 @@ var webpackConfig = {
 
 // 获取所有入口文件
 // 约定：
-// 	1. [src/js/pages] 文件下的js文件为入口文件
+//  1. [src/js/pages] 文件下的js文件为入口文件
 //  2. [src/js/pages] 下的js命名须与 [src/pages] 下的html名称一致
 function getEntryFile() {
   var
@@ -37,7 +41,7 @@ function getEntryFile() {
       files[matchs[1]] = path.resolve(jsPath, 'pages', item);
       var plugin = new HtmlWebpackPlugin({
         filename: matchs[1] + '.html',
-        template: './src/pages/' + matchs[1] + '.html',
+        template: './src/views/' + matchs[1] + '.html',
         chunks: ['common', matchs[1]],
         inject: 'true',
         minify: {
@@ -67,6 +71,12 @@ Object.assign(webpackConfig, {
     rules: [{
       test: /\.css$/,
       use: ['style-loader', 'css-loader']
+    }, {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]'
+    }, {
+      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+      loader: 'url-loader?limit=10000&name=fonts/[hash:7].[name].[ext]'
     }]
   },
   resolve: {
