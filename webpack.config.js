@@ -7,10 +7,6 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var srcDir = path.resolve(process.cwd(), 'src');
 var jsPath = path.resolve(srcDir, 'assets/js');
-var cssPath = path.resolve(srcDir, 'assets/style');
-var imgPath = path.resolve(srcDir, 'assets/images');
-var fontsPath = path.resolve(srcDir, 'assets/fonts');
-
 
 
 var webpackConfig = {
@@ -81,7 +77,9 @@ Object.assign(webpackConfig, {
   },
   resolve: {
     alias: {
-      style: cssPath,
+      style: path.resolve(srcDir, 'assets/style'),
+      img: path.resolve(srcDir, 'assets/images'),
+      fonts: path.resolve(srcDir, 'assets/fonts'),
       jquery: jsPath + "/lib/jquery.min.js",
       core: jsPath + "/core",
       ui: jsPath + "/ui"
