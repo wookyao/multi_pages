@@ -1,8 +1,10 @@
 var webpack = require("webpack");
 var fs = require("fs");
 var path = require('path');
+
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
+var extractTextPlugin = require("extract-text-webpack-plugin");
 
 var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var srcDir = path.resolve(process.cwd(), 'src');
@@ -16,7 +18,8 @@ var webpackConfig = {
       compress: {
         warnings: false
       }
-    })
+    }),
+    new extractTextPlugin('style/main.css')
   ]
 };
 
@@ -66,13 +69,13 @@ Object.assign(webpackConfig, {
   module: {
     rules: [{
       test: /\.css$/,
-      use: ['style-loader', 'css-loader']
+      loader: extractTextPlugin.extract('css-loader?minimize')
     }, {
       test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-      loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]'
+      loader: 'url-loader?limit=8192&name=images/[name].[hash:8].[ext]'
     }, {
       test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-      loader: 'url-loader?limit=10000&name=fonts/[hash:7].[name].[ext]'
+      loader: 'url-loader?limit=10000&name=fonts/[name].[hash:8].[ext]'
     }]
   },
   resolve: {

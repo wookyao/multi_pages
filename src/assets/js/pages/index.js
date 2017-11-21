@@ -1,4 +1,4 @@
-require("style/main.css")
+require("style/main.css");
 var $ = require('jquery');
 
 $(function() {
