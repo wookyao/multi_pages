@@ -87,6 +87,11 @@ Object.assign(webpackConfig, {
       core: jsPath + "/core",
       ui: jsPath + "/ui"
     }
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    host: 'localhost',
+    port: 8089
   }
 });
 
